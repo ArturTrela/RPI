@@ -14,6 +14,7 @@ import datetime as dt
 import csv
 import pymysql
 
+
 min_gen_value = 2200
 max_gen_value = 2300
 test_value = 0
@@ -26,11 +27,13 @@ sample_time_resolution = 2
 timer = dt.datetime.now()
 now = timer.strftime("%Y-%m-%d /%H:%M:%S  ")
 measureTable = []
-req_sample_count = 5
 # save_file_name = 'measureTable/measureValue '+str(dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S"))+'.csv'
 save_file_name = 'MeasureValue.csv'
 print(now)
 
+
+
+#
 while condition:
 
     delta = dt.datetime.now() - timer
@@ -49,7 +52,7 @@ while condition:
             f' [{sample_count}] Pomiar  w dniu : {last_record} wykazał {test_value}V dla L1 a prąd zarejestrowany {current_L1}A')
 
     def filesaver():
-        if sample_count == 5:
+        if sample_count == 10:
             for i in range(0, sample_count):
                 print(measureTable[i])
                 i +=1
@@ -66,7 +69,7 @@ while condition:
                 writer.writerows(data)
 
     filesaver()
-    if sample_count == 5:
+    if sample_count == 10:
         condition = False
 
 
@@ -82,7 +85,6 @@ def mysqlconnect():
     cur = conn.cursor()
     cur.execute("select @@version")
     output = cur.fetchall()
-
 
     print(output)
     conn.close()
