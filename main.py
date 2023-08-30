@@ -12,6 +12,7 @@
 import random
 import datetime as dt
 import csv
+import pymysql
 
 min_gen_value = 2200
 max_gen_value = 2300
@@ -26,7 +27,8 @@ timer = dt.datetime.now()
 now = timer.strftime("%Y-%m-%d /%H:%M:%S  ")
 measureTable = []
 req_sample_count = 5
-save_file_name = 'measureTable/measureValue '+str(dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S"))+'.csv'
+# save_file_name = 'measureTable/measureValue '+str(dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S"))+'.csv'
+save_file_name = 'MeasureValue.csv'
 print(now)
 
 while condition:
@@ -63,9 +65,29 @@ while condition:
                 # write the data
                 writer.writerows(data)
 
-
     filesaver()
     if sample_count == 5:
         condition = False
 
+
+def mysqlconnect():
+    # To connect MySQL database
+    conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password="malina",
+        db='rpi_db',
+    )
+
+    cur = conn.cursor()
+    cur.execute("select @@version")
+    output = cur.fetchall()
+
+
+    print(output)
+    conn.close()
+
+
+if __name__ == "__main__":
+    mysqlconnect()
 
